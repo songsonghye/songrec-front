@@ -1,0 +1,45 @@
+:root {
+    --header-h: 64px;
+    --footer-h: 88px;
+}
+
+.mainContainer {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: var(--header-h) auto var(--footer-h);
+    grid-template-areas:
+        "header header"
+        "playlistSide homePage"
+        "footerPlayer footerPlayer";
+
+    height: 100vh;
+    gap: 8px;
+}
+
+.header {
+    grid-area: header;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 8px;
+    background-color: #000;
+}
+
+.footerPlayer {
+    grid-area: footerPlayer;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+    padding: 8px;
+    background-color: aquamarine;
+}
+
+/* 가운데 두 영역만 스크롤 */
+.playlistSide,
+.homePage {
+    min-height: 0;
+    /* ⬅️ grid 자식이 스크롤 되게 하는 핵심 */
+    overflow: auto;
+    padding: 16px;
+    background-color: darkslategrey;
+}

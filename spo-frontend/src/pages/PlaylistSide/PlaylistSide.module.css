@@ -1,0 +1,52 @@
+.playlistSideContainer {
+    display: flex;
+    flex-direction: column;
+    width: var(--sidebar-w, 400px);
+    height: 100%;
+    /* background-color: blueviolet; */
+    transition: width 200ms ease;
+    overflow: hidden;
+
+}
+
+.playlistSideContainer[data-collapsed="true"] {
+    --sidebar-w: 72px;
+    display: flex;
+    flex-direction: column;
+}
+
+.playlistSideContainer[data-collapsed="true"]>.plsHeader {
+    display: flex;
+    flex-direction: column;
+}
+
+.playlistSideContainer[data-collapsed="true"]>.playlistList>.playlistItemLink {
+    display: flex;
+    justify-content: center;
+}
+
+.plsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.playlistItem {
+    margin: 10px 0;
+
+}
+
+
+.active {
+    color: black;
+    font-weight: bold;
+    display: block;
+    background-color: red;
+}
+
+.playlistItemLink {
+    display: block;
+    color: aliceblue;
+    text-decoration: none;
+
+}
