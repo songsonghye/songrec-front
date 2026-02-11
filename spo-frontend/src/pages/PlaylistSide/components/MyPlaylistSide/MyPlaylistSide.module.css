@@ -1,0 +1,23 @@
+.playlistItem {
+    margin: 10px 0;
+
+}
+
+
+.active {
+    color: black;
+    font-weight: bold;
+    display: block;
+    background-color: red;
+}
+
+.playlistItemLink {
+    display: block;
+    color: aliceblue;
+    text-decoration: none;
+
+}
+
+.thumbnail {
+    width: 30px;
+}

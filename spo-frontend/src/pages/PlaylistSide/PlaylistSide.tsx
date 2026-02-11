@@ -1,66 +1,149 @@
-import { useRef, useState } from "react";
-import styles from "./PlaylistSide.module.css";
-import { NavLink } from "react-router";
+import { useCallback, useEffect, useRef, useState } from 'react'
+import styles from './PlaylistSide.module.css'
+import { useNavigate } from 'react-router-dom'
+import { getRequests } from '../../API/users/RequestApi'
+import PlaylistCreateModal from '../../modals/PlaylistCreateModal'
+import RequestPlaylistSide from './components/RequestPlaylistSide/RequestPlaylistSide'
+import type { Request } from '../../types/request'
+import { getPlaylists } from '../../API/users/PlaylistApi'
+import type { Playlist } from '../../types/playlist'
+import MyPlaylistSide from './components/MyPlaylistSide/MyPlaylistSide'
 
-type Playlist = { id: number; thumbnail: string; title: string };
+export type PlaylistSideProps = {
+  playlistVersion: number
+  refreshPlaylists: () => void
+}
+export const DEFAULT_THUMBNAIL = '/images/default-music-icon.png'
+export default function PlaylistSide({
+  playlistVersion,
+  refreshPlaylists,
+}: PlaylistSideProps) {
+  const [requests, setRequests] = useState<Request[]>([])
+  const [playlists, setPlaylists] = useState<Playlist[]>([])
+  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [selectedOption, setSelectedOption] = useState('내 플레이리스트')
+  const [optionOpen, setOptionOpen] = useState(false)
+  const options = ['내 플레이리스트', '추천 플레이리스트']
+  const navigate = useNavigate()
+  const requestsLoaded = useRef(false)
+  const playlistsLoaded = useRef(false)
 
-export default function PlaylistSide() {
-  const [playlists, setPlaylists] = useState<Playlist[]>([
-    { id: 0, thumbnail: "🎵", title: "내가 좋아하는 플레이리스트" },
-    { id: 1, thumbnail: "🎵", title: "여름 플레이리스트" },
-  ]);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const nextIdRef = useRef<number>(2);
+  const fetchRequests = useCallback(async () => {
+    const res = await getRequests(2)
+    const mapped: Request[] = (res.data as Request[]).map((r) => ({
+      id: r.id,
+      title: r.title,
+      thumbnailUrl: r.thumbnailUrl ?? null,
+    }))
 
-  const addPlaylist = () => {
-    const id = nextIdRef.current++;
-    setPlaylists((prev) => {
-      return [
-        ...prev,
-        {
-          id,
-          thumbnail: "🎵",
-          title: `플레이리스트 #${id + 1}`,
-        },
-      ];
-    });
-  };
+    setRequests(mapped)
+    requestsLoaded.current = true
+  }, [])
 
-  const handleSidebar = () => {
-    setSidebarOpen((s) => !s);
-  };
+  const fetchPlaylists = useCallback(async () => {
+    const res = await getPlaylists(2)
+    const mapped: Playlist[] = (res.data as Playlist[]).map((p) => ({
+      id: p.id,
+      code: p.code,
+      title: p.title,
+      thumbnailUrl: p.thumbnailUrl ?? null,
+    }))
+
+    setPlaylists(mapped)
+    playlistsLoaded.current = true
+  }, [])
+
+  useEffect(() => {
+    const fetchLists = async () => {
+      try {
+        if (selectedOption === '내 플레이리스트') {
+          if (!playlistsLoaded.current) await fetchPlaylists()
+        } else {
+          if (!requestsLoaded.current) await fetchRequests()
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    fetchLists()
+  }, [selectedOption, fetchRequests, fetchPlaylists, playlistVersion])
+
+  useEffect(() => {
+    requestsLoaded.current = false
+    playlistsLoaded.current = false
+  }, [playlistVersion])
+
+  const handleSidebar = () => setSidebarOpen((s) => !s)
+  const openModal = () => setModalOpen(true)
+  const closeModal = () => setModalOpen(false)
+
+  // TODO: 생성을 어디다 할지 정하기
+  const handleCreated = async (newId: number) => {
+    refreshPlaylists()
+    closeModal()
+    navigate(`/detail/request/${newId}`)
+  }
 
   return (
     <>
       <div
-        data-collapsed={sidebarOpen ? "false" : "true"}
+        data-collapsed={sidebarOpen ? 'false' : 'true'}
         className={styles.playlistSideContainer}
       >
         <div className={styles.plsHeader}>
           <button onClick={handleSidebar}>사이드바</button>
-          <p className={styles.plsTitle}>내 플레이리스트</p>
-          <button type="button" onClick={addPlaylist}>
-            {sidebarOpen ? "+만들기" : "+"}
-          </button>
-        </div>
-        <div className={styles.playlistList}>
-          {playlists.map((playlist) => (
-            <NavLink
-              to={`/playlist/${playlist.id}`}
-              className={({ isActive }) =>
-                isActive
-                  ? `${styles.active} ${styles.playlistItemLink}`
-                  : `${styles.playlistItemLink}`
-              }
+
+          <div className={styles.optionWrapper}>
+            <div
+              className={styles.plsTitle}
+              onClick={() => setOptionOpen((prv) => !prv)}
             >
-              <div key={playlist.id} className={styles.playlistItem}>
-                {playlist.thumbnail}
-                {sidebarOpen && playlist.title}
+              <p>{selectedOption}</p>
+            </div>
+            {optionOpen && (
+              <div className={styles.optionDropdown}>
+                {options.map((o) => (
+                  <div
+                    key={o}
+                    className={styles.option}
+                    onClick={() => {
+                      setSelectedOption(o)
+                      setOptionOpen(false)
+                    }}
+                  >
+                    {o}
+                  </div>
+                ))}
               </div>
-            </NavLink>
-          ))}
+            )}
+          </div>
+
+          <button type="button" onClick={openModal}>
+            {sidebarOpen ? '+만들기' : '+'}
+          </button>
+
+          <PlaylistCreateModal
+            isOpen={modalOpen}
+            onClose={closeModal}
+            onCreated={handleCreated}
+          />
         </div>
+
+        {selectedOption === '내 플레이리스트' ? (
+          <MyPlaylistSide
+            playlists={playlists}
+            sidebarOpen={sidebarOpen}
+            playlistVersion={playlistVersion}
+          />
+        ) : (
+          <RequestPlaylistSide
+            requests={requests}
+            sidebarOpen={sidebarOpen}
+            playlistVersion={playlistVersion}
+          />
+        )}
       </div>
     </>
-  );
+  )
 }

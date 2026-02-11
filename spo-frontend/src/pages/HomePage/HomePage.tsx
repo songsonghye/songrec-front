@@ -1,22 +1,15 @@
 import { useEffect, useState} from "react";
-import { getHello } from "../../API/HelloApi";
 import { addUser, getUsers } from "../../API/users/UserApi";
 import type { User } from "../../types/user";
 
 
 export default function HomePage() {
-  const [hello,setHello]=useState('');
   const [users,setUsers]=useState([]);
   const [isSubmitted, setSubmit] = useState(false);
   const [name,setName]=useState('');
-  const [birthDate,setBirthDate]=useState('');
+  const [password,setPassword]=useState('');
 
   useEffect(()=>{
-    getHello().then((res)=>{
-      setHello(res.data);
-    }).catch(err=>{
-      console.log("Err: "+err);
-    });
 
     getUsers().then((res)=>{
       setUsers(res.data);
@@ -28,24 +21,22 @@ export default function HomePage() {
     if(isSubmitted) return;
     setSubmit(true);
     
-    addUser({name,birthDate}).then((res)=>{
+    addUser({name,password}).then((res)=>{
       console.log(res);
     }).catch(err=>{
       console.log("Err: "+err);
     });
-    
-    setName('');setBirthDate('');
+    setName('');setPassword('');
   }
   
   return (
     <div>
       <h2>메인 화면</h2>
-      <p>{hello}</p>
+      <h3>hello!</h3>
       {users?.map((user:User,i:number)=>(
         <div key={i}>
           <div>{user.id}</div>
           <div>{user.name}</div>
-          <div>{user.birthDate}</div>
           </div>
       ))}
       <hr></hr>
@@ -56,11 +47,12 @@ export default function HomePage() {
           value={name} 
           onChange={(e)=> setName(e.target.value)} 
           required/>
-        <label>birth_date</label>
-        <input
-          type="date"
-          value={birthDate}
-          onChange={(e)=>setBirthDate(e.target.value)} required />
+        <label>password</label>
+        <input 
+          type="text" 
+          value={password} 
+          onChange={(e)=> setPassword(e.target.value)} 
+          required/>
         <button type="submit">submit</button>
       </form>
     </div>

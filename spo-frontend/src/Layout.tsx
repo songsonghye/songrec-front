@@ -1,9 +1,12 @@
-import PlaylistSide from "./pages/PlaylistSide/PlaylistSide";
-import Header from "./pages/Header/Header";
-import FooterPlayer from "./pages/FooterPlayer/FooterPlayer";
-import styles from "./Layout.module.css";
-import { Outlet, ScrollRestoration } from "react-router-dom";
+import PlaylistSide from './pages/PlaylistSide/PlaylistSide'
+import Header from './pages/Header/Header'
+import FooterPlayer from './pages/FooterPlayer/FooterPlayer'
+import styles from './Layout.module.css'
+import { Outlet, ScrollRestoration } from 'react-router-dom'
+import { useState } from 'react'
 function Layout() {
+  const [playlistVersion, setPlaylistVersion] = useState(0)
+  const refreshPlaylists = () => setPlaylistVersion((v) => v + 1)
   return (
     <>
       <div className={styles.mainContainer}>
@@ -12,11 +15,14 @@ function Layout() {
         </div>
 
         <div className={styles.playlistSide}>
-          <PlaylistSide />
+          <PlaylistSide
+            playlistVersion={playlistVersion}
+            refreshPlaylists={refreshPlaylists}
+          />
         </div>
 
         <div className={styles.homePage}>
-          <Outlet />
+          <Outlet context={refreshPlaylists} />
         </div>
 
         <div className={styles.footerPlayer}>
@@ -25,7 +31,7 @@ function Layout() {
       </div>
       <ScrollRestoration />
     </>
-  );
+  )
 }
 
-export default Layout;
+export default Layout

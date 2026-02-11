@@ -1,0 +1,18 @@
+.thumbnail {
+    width: 100px;
+    cursor: pointer;
+    transition: opacity 0.2s ease, filter 0.2s ease, transform 0.1s ease;
+}
+
+.thumbnail:hover {
+    opacity: 0.7;
+}
+
+.thumbnail:active {
+    opacity: 0.5;
+    transform: scale(0.97);
+}
+
+.detailTitle {
+    cursor: pointer;
+}

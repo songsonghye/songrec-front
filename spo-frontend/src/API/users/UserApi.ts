@@ -3,7 +3,7 @@ import { api } from "../APIHandler";
 
 export async function getUsers() {
     try{
-        const users = await api.get('/jpa/users');
+        const users = await api.get('/users');
         return users;
     }catch(error){
     console.error("Error: "+error);
@@ -13,7 +13,7 @@ export async function getUsers() {
 
 export async function getUser(userId:number) {
     try{
-        const userInfo = await api.get(`/jpa/users/${userId}`);
+        const userInfo = await api.get(`/users/${userId}`);
         return userInfo;
     }catch(error){
     console.error("Error: "+error);
@@ -21,10 +21,10 @@ export async function getUser(userId:number) {
   }
 }
 
-export async function addUser({id,name,birthDate}:User) {
+export async function addUser({name,password}:User) {
   try{
-    const data={id,name,birthDate};
-    const response = await api.post('/jpa/users',data);
+    const data={name,password};
+    const response = await api.post('/users',data);
     return response;
   }catch(error){
     console.error("Error: "+error);
