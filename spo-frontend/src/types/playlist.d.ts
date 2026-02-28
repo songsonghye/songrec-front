@@ -1,6 +1,8 @@
 export interface Playlist {
-  id?: number
+  id: number
+  userName: string
   code?: string
   title: string
   thumbnailUrl?: string | null
+  visibility: string
 }

@@ -1,0 +1,122 @@
+.playlistSideContainer {
+    display: flex;
+    flex-direction: column;
+    width: var(--sidebar-w, 400px);
+    height: 100%;
+    /* background-color: blueviolet; */
+    transition: width 200ms ease;
+    overflow: hidden;
+
+}
+
+.playlistListWrapper {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+
+    /* Chrome, Safari */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE 10+ */
+}
+
+.playlistListWrapper::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari */
+}
+
+.playlistSideContainer[data-collapsed="true"] {
+    --sidebar-w: 72px;
+    display: flex;
+    flex-direction: column;
+}
+
+.playlistSideContainer[data-collapsed="true"]>.plsHeader {
+    display: flex;
+    flex-direction: column;
+}
+
+.playlistSideContainer[data-collapsed="true"]>.playlistList>.playlistItemLink {
+    display: flex;
+    justify-content: center;
+}
+
+.plsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.optionWrapper {
+    position: relative;
+    width: 200px;
+}
+
+.plsTitle {
+    padding: 12px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    background: white;
+}
+
+.optionDropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    z-index: 10;
+}
+
+.option {
+    padding: 12px;
+    cursor: pointer;
+}
+
+.option:hover {
+    background-color: #f5f5f5;
+}
+
+.dropdownContent {
+    min-width: 180px;
+    background: white;
+    border-radius: 10px;
+    padding: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+
+.menuItem {
+    display: flex;
+    box-sizing: border-box;
+    flex: 1 1 auto;
+    align-items: center;
+    width: 100%;
+
+    padding: 10px 12px;
+    border-radius: 8px;
+
+    text-decoration: none;
+    color: #111;
+    background: transparent;
+
+    border: 0;
+    font: inherit;
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
+}
+
+.menuItem:hover {
+    background: rgba(0, 0, 0, 0.06);
+}
+
+.menuItem:focus {
+    outline: none;
+}
