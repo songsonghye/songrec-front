@@ -12,6 +12,7 @@ import type { TrackCreateRequestDto } from '../types/track'
 import MenuModal from '../shared/modals/MenuModal'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import type { Playlist } from '../types/playlist'
+import SearchItems from '../features/search/components/SearchItems'
 
 export default function SearchPage() {
   const { id } = useParams()
@@ -35,7 +36,6 @@ export default function SearchPage() {
   }
 
   const handleFetchPlaylists = async () => {
-    console.log('handleFetchPlaylists start')
     try {
       const playlistsRes = await getMyPlaylists()
       console.log('playlistsRes.data', playlistsRes.data)
@@ -87,78 +87,46 @@ export default function SearchPage() {
 
         <div className={styles.trackBlock}>
           <h2 className={styles.sectionTitle}>곡</h2>
-          <div className={styles.trackList}>
-            {tracks?.items.map((i) => (
-              <div key={i.trackId} className={styles.trackRow}>
-                <div className={styles.trackLeft}>
-                  <img
-                    src={i.album?.albumImages?.at(0)?.url}
-                    alt={i.name}
-                    className={styles.trackThumb}
-                  />
-
-                  <div className={styles.trackMeta}>
-                    <div className={styles.trackName}>{i.name}</div>
-                    <div className={styles.trackArtist}>
-                      {i.artists.at(0)?.name}
-                    </div>
-                  </div>
-                </div>
-
-                <MenuModal triggerName="+">
-                  <DropdownMenu.Content
-                    side="bottom"
-                    align="end"
-                    sideOffset={19}
-                    collisionPadding={3}
-                    sticky="always"
-                  >
-                    {playlists.map((p) => (
-                      <>
-                        <DropdownMenu.Item asChild>
-                          <button
-                            type="button"
-                            className={styles.menuItem}
-                            onClick={() =>
-                              handleAddTrack(p.id, {
-                                spotifyId: i.trackId,
-                                name: i.name,
-                                artist: i.artists.at(0)?.name,
-                                album: i.album.albumId,
-                                imageUrl: i.album.albumImages.at(0)?.url,
-                                durationMs: i.durationMs,
-                              })
-                            }
-                          >
-                            {p.title}
-                          </button>
-                        </DropdownMenu.Item>
-                        <DropdownMenu.Separator
-                          className={styles.dropdownSeparator}
-                        />
-                      </>
-                    ))}
-                    <DropdownMenu.Item asChild>
-                      <button
-                        type="button"
-                        className={styles.menuItem}
-                        onClick={() => console.log('테스트 버튼')}
-                      >
-                        테스트
-                      </button>
-                    </DropdownMenu.Item>
-                  </DropdownMenu.Content>
-                </MenuModal>
-
-                <div className={styles.trackDuration}>
-                  {Math.floor(i.durationMs / 60000)}:
-                  {Math.floor((i.durationMs % 60000) / 1000)
-                    .toString()
-                    .padStart(2, '0')}
-                </div>
-              </div>
-            ))}
-          </div>
+          <SearchItems tracks={tracks}>
+            {(track) => (
+              <MenuModal triggerName="+" key={track.trackId}>
+                <DropdownMenu.Content
+                  className={styles.dropdownContent}
+                  side="bottom"
+                  align="end"
+                  sideOffset={19}
+                  collisionPadding={3}
+                  sticky="always"
+                >
+                  {playlists.map((p) => (
+                    <>
+                      <DropdownMenu.Item asChild key={p.id}>
+                        <button
+                          type="button"
+                          className={styles.menuItem}
+                          onClick={() =>
+                            handleAddTrack(p.id, {
+                              spotifyId: track.trackId,
+                              name: track.name,
+                              artist: track.artists.at(0)?.name,
+                              album: track.album.albumId,
+                              imageUrl: track.album.albumImages.at(0)?.url,
+                              durationMs: track.durationMs,
+                            })
+                          }
+                        >
+                          {p.title}
+                        </button>
+                      </DropdownMenu.Item>
+                      <DropdownMenu.Separator
+                        className={styles.dropdownSeparator}
+                      />
+                    </>
+                  ))}
+                </DropdownMenu.Content>
+              </MenuModal>
+            )}
+          </SearchItems>
         </div>
       </div>
 

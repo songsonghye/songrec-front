@@ -1,6 +1,7 @@
 import { api } from '../../../shared/api/client'
 import type { TrackCreateRequestDto } from '../../../types/track'
 
+// get
 export async function getMyPlaylists() {
   try {
     const playlists = await api.get(`/playlists`)
@@ -32,31 +33,22 @@ export async function getPlaylistDetails(playlistId: number) {
   }
 }
 
+export async function getPlaylistTracks(playlistId: number) {
+  try {
+    const tracks = await api.get(`/playlists/${playlistId}/tracks`)
+    return tracks
+  } catch (error) {
+    console.error('Error: ' + error)
+    throw error
+  }
+}
+
+//post
 export async function addPlaylist(title: string) {
   try {
     const data = { title }
     const response = await api.post(`/playlists`, data)
     return response
-  } catch (error) {
-    console.error('Error: ' + error)
-    throw error
-  }
-}
-
-export async function deletePlaylist(playlistId: number) {
-  try {
-    const res = await api.delete(`/playlists/${playlistId}`)
-    console.log(res)
-  } catch (error) {
-    console.error('Error: ' + error)
-    throw error
-  }
-}
-
-export async function getPlaylistTracks(playlistId: number) {
-  try {
-    const tracks = await api.get(`/playlists/${playlistId}/tracks`)
-    return tracks
   } catch (error) {
     console.error('Error: ' + error)
     throw error
@@ -72,6 +64,44 @@ export function uploadPlaylistThumbnail(playlistId: number, file: File) {
   })
 }
 
+export async function addTrackToPlaylist(
+  playlistId: number,
+  dto: TrackCreateRequestDto
+) {
+  try {
+    const response = await api.post(`/playlists/${playlistId}/tracks`, dto)
+    return response
+  } catch (error) {
+    console.error('Error: ' + error)
+    throw error
+  }
+}
+
+// delete
+export async function deletePlaylist(playlistId: number) {
+  try {
+    const res = await api.delete(`/playlists/${playlistId}`)
+    console.log(res)
+  } catch (error) {
+    console.error('Error: ' + error)
+    throw error
+  }
+}
+
+export async function deleteTrackByPlaylist(
+  playlistId: number,
+  trackId: number
+) {
+  try {
+    const res = await api.delete(`/playlists/${playlistId}/tracks/${trackId}`)
+    console.log(res)
+  } catch (error) {
+    console.error('Error: ' + error)
+    throw error
+  }
+}
+
+// patch
 export async function updatePlaylistTitle(playlistId: number, title: string) {
   try {
     const data = { title }
@@ -91,19 +121,6 @@ export async function updatePlaylistVisibility(
     const data = { visibility }
     const res = await api.patch(`/playlists/${playlistId}/visibility`, data)
     return res
-  } catch (error) {
-    console.error('Error: ' + error)
-    throw error
-  }
-}
-
-export async function addTrackToPlaylist(
-  playlistId: number,
-  dto: TrackCreateRequestDto
-) {
-  try {
-    const response = await api.post(`/playlists/${playlistId}/tracks`, dto)
-    return response
   } catch (error) {
     console.error('Error: ' + error)
     throw error

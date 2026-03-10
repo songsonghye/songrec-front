@@ -1,23 +1,69 @@
-.requestItem {
-    margin: 10px 0;
-
-}
-
-
-.active {
-    color: black;
-    font-weight: bold;
-    display: block;
-    background-color: red;
+.requestList {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0 8px 10px;
 }
 
 .requestItemLink {
-    display: block;
-    color: aliceblue;
     text-decoration: none;
+    color: inherit;
+    border-radius: 10px;
+    display: block;
+    transition: background 0.15s ease, color 0.15s ease;
+}
 
+.requestItemLink:hover {
+    background: rgba(97, 103, 122, 0.22);
+}
+
+.active {
+    background: rgba(97, 103, 122, 0.38);
+}
+
+.active:hover {
+    background: rgba(97, 103, 122, 0.5);
+}
+
+.requestItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    padding: 10px 12px;
+    color: #D8D9DA;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .thumbnail {
-    width: 30px;
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #343841;
+    transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.requestItemLink:hover .requestItem {
+    color: #FFF6E0;
+}
+
+.active .requestItem {
+    color: #FFF6E0;
+}
+
+.requestItemLink:hover .thumbnail {
+    transform: scale(1.02);
+    filter: brightness(1.03);
+}
+
+.collapsedItem {
+    justify-content: center;
+    padding: 10px 0;
 }

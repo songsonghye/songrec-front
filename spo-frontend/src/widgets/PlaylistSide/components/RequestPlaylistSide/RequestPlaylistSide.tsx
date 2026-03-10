@@ -26,7 +26,9 @@ export default function RequestPlaylistSide({
               : `${styles.requestItemLink}`
           }
         >
-          <div className={styles.requestItem}>
+          <div
+            className={`${styles.requestItem} ${!sidebarOpen ? styles.collapsedItem : ''}`}
+          >
             <img
               src={
                 request.thumbnailUrl

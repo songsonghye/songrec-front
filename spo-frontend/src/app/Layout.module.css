@@ -1,45 +1,77 @@
 :root {
-    --header-h: 64px;
+    --app-bg: #272829;
+    --panel-bg: #1f2021;
+    --panel-bg-2: #222324;
+    --control-bg: #343841;
+    --control-hover: #61677A;
+    --menu-bg: #2c2d2f;
+    --text-main: #D8D9DA;
+    --text-sub: rgba(216, 217, 218, 0.72);
+    --accent: #FFF6E0;
+    --border-soft: rgba(216, 217, 218, 0.08);
+
+    --header-h: 72px;
     --footer-h: 88px;
+    --shell-gap: 8px;
+    --shell-pad: 8px;
+    --panel-radius: 12px;
 }
 
 .mainContainer {
     display: grid;
     grid-template-columns: auto 1fr;
-    grid-template-rows: var(--header-h) auto var(--footer-h);
+    grid-template-rows: var(--header-h) minmax(0, 1fr) var(--footer-h);
     grid-template-areas:
         "header header"
         "playlistSide homePage"
         "footerPlayer footerPlayer";
-
     height: 100vh;
-    gap: 8px;
+    gap: var(--shell-gap);
+    padding: var(--shell-pad);
+    box-sizing: border-box;
+    background: var(--app-bg);
+    color: var(--text-main);
 }
 
 .header {
     grid-area: header;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    padding: 8px;
-    background-color: #000;
+    min-height: 0;
+    overflow: visible;
+    background: #272829;
+    border-radius: var(--panel-radius);
 }
 
 .footerPlayer {
     grid-area: footerPlayer;
-    position: sticky;
-    bottom: 0;
-    z-index: 10;
-    padding: 8px;
-    background-color: aquamarine;
+    min-height: 0;
+    overflow: hidden;
+    background: #272829;
+    border-radius: var(--panel-radius);
 }
 
-/* 가운데 두 영역만 스크롤 */
-.playlistSide,
-.homePage {
+.playlistSide {
+    grid-area: playlistSide;
     min-height: 0;
-    /* ⬅️ grid 자식이 스크롤 되게 하는 핵심 */
+    min-width: 0;
+    overflow: visible;
+    background: transparent;
+    position: relative;
+    z-index: 20;
+}
+
+.homePage {
+    grid-area: homePage;
+    min-height: 0;
+    min-width: 0;
     overflow: auto;
-    padding: 16px;
-    background-color: darkslategrey;
+    background: linear-gradient(180deg, #222324 0%, #1f2021 100%);
+    border-radius: var(--panel-radius);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    position: relative;
+    z-index: 1;
+}
+
+.homePage::-webkit-scrollbar {
+    display: none;
 }

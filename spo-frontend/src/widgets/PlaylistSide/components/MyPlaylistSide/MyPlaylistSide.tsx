@@ -26,7 +26,9 @@ export default function MyPlaylistSide({
               : `${styles.playlistItemLink}`
           }
         >
-          <div className={styles.playlistItem}>
+          <div
+            className={`${styles.playlistItem} ${!sidebarOpen ? styles.collapsedItem : ''}`}
+          >
             <img
               src={
                 playlist.thumbnailUrl
@@ -38,6 +40,12 @@ export default function MyPlaylistSide({
             />
             {sidebarOpen && playlist.title}
           </div>
+          {!sidebarOpen && (
+            <div className={styles.hoverCard}>
+              <div className={styles.hoverTitle}>{playlist.title}</div>
+              <span className={styles.hoverUser}>{playlist.username}</span>
+            </div>
+          )}
         </NavLink>
       ))}
     </div>

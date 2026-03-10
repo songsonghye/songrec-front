@@ -50,59 +50,6 @@
     font-size: 14px;
 }
 
-/* ---------- Track list ---------- */
-
-.trackList {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.trackRow {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 12px;
-    border-radius: 8px;
-    transition: background 0.15s;
-}
-
-.trackRow:hover {
-    background: #1a1a1a;
-}
-
-.trackLeft {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.trackThumb {
-    width: 48px;
-    height: 48px;
-    border-radius: 4px;
-    object-fit: cover;
-}
-
-.trackMeta {
-    display: flex;
-    flex-direction: column;
-}
-
-.trackName {
-    font-weight: 700;
-    font-size: 16px;
-}
-
-.trackArtist {
-    color: #b3b3b3;
-    font-size: 14px;
-}
-
-.trackDuration {
-    color: #b3b3b3;
-    font-size: 14px;
-}
 
 /* ---------- Bottom cards ---------- */
 
@@ -146,4 +93,65 @@
 .playlistDesc {
     font-size: 13px;
     color: #b3b3b3;
+}
+
+.dropdownContent {
+    min-width: 180px;
+    max-height: 260px;
+    overflow-y: auto;
+
+    background: #2c2d2f;
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(216, 217, 218, 0.06);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: #D8D9DA;
+
+    scrollbar-width: thin;
+    scrollbar-color: #61677A transparent;
+}
+
+.dropdownContent::-webkit-scrollbar {
+    width: 8px;
+}
+
+.dropdownContent::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.dropdownContent::-webkit-scrollbar-thumb {
+    background: #61677A;
+    border-radius: 999px;
+}
+
+.dropdownSeparator {
+    height: 1px;
+    margin: 4px 4px;
+    background: rgba(216, 217, 218, 0.08);
+}
+
+.menuItem {
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #D8D9DA;
+    background: transparent;
+    border: 0;
+    font: inherit;
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
+}
+
+.menuItem:hover {
+    background: #61677A;
+    color: #FFF6E0;
 }

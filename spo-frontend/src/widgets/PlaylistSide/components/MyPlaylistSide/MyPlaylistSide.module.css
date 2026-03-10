@@ -1,23 +1,121 @@
-.playlistItem {
-    margin: 10px 0;
-
-}
-
-
-.active {
-    color: black;
-    font-weight: bold;
-    display: block;
-    background-color: red;
+.playlist {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0 8px 10px;
 }
 
 .playlistItemLink {
-    display: block;
-    color: aliceblue;
+    position: relative;
+    z-index: 1;
     text-decoration: none;
+    color: inherit;
+    border-radius: 10px;
+    display: block;
+    transition: background 0.15s ease, color 0.15s ease;
+}
 
+.hoverCard {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 10px);
+    transform: translateY(-50%) translateX(-4px);
+    min-width: 180px;
+    max-width: 240px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: #2c2d2f;
+    border: 1px solid rgba(216, 217, 218, 0.08);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+        opacity 0.15s ease,
+        transform 0.15s ease,
+        visibility 0.15s ease;
+    z-index: 999;
+}
+
+.hoverTitle {
+    color: #FFF6E0;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hoverUser {
+    display: block;
+    color: rgba(216, 217, 218, 0.72);
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 닫힌 상태에서 hover 시 옆에 카드 표시 */
+.playlistItemLink:hover .hoverCard {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) translateX(0);
+}
+
+.playlistItemLink:hover {
+    z-index: 20;
+    background: rgba(97, 103, 122, 0.22);
+}
+
+.active {
+    background: rgba(97, 103, 122, 0.38);
+}
+
+.active:hover {
+    background: rgba(97, 103, 122, 0.5);
+}
+
+.playlistItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    padding: 10px 12px;
+    color: #D8D9DA;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .thumbnail {
-    width: 30px;
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #343841;
+    transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.playlistItemLink:hover .playlistItem {
+    color: #FFF6E0;
+}
+
+.active .playlistItem {
+    color: #FFF6E0;
+}
+
+.playlistItemLink:hover .thumbnail {
+    transform: scale(1.02);
+    filter: brightness(1.03);
+}
+
+.collapsedItem {
+    justify-content: center;
+    padding: 10px 0;
 }

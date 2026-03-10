@@ -1,81 +1,156 @@
 .navBar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #fff;
     height: 100%;
-    margin: 0;
-    padding: 0 16px;
-    overflow: visible;
-}
-
-.homeNsearch {
     display: flex;
-
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 0 20px;
+    background: #272829;
+    color: #D8D9DA;
+    box-sizing: border-box;
 }
 
 .logo,
 .login,
 .homeBtn {
-    color: #fff;
     text-decoration: none;
 }
 
-.profileBtn {
-    cursor: pointer;
-    background: transparent;
+.logo {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 128px;
+    height: 44px;
+    padding: 0 18px;
+    border-radius: 999px;
+    background: #FFF6E0;
+    color: #272829;
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 0.2px;
+    transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.logo:hover {
+    transform: scale(1.03);
+    filter: brightness(1.03);
+}
+
+.homeNsearch {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.homeBtn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #343841;
+    color: #D8D9DA;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.homeBtn:hover {
+    background: #61677A;
+    transform: scale(1.04);
+}
+
+.homeNsearch form {
+    width: min(560px, 100%);
+    min-width: 0;
+}
+
+.homeNsearch input {
+    width: 100%;
+    height: 48px;
     border: 0;
-    color: #fff;
-    font: inherit;
+    outline: none;
+    border-radius: 999px;
+    background: #343841;
+    color: #D8D9DA;
+    padding: 0 18px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.homeNsearch input::placeholder {
+    color: rgba(255, 246, 224, 0.55);
+}
+
+.homeNsearch input:hover {
+    background: #3d4250;
+}
+
+.homeNsearch input:focus {
+    background: #3d4250;
+    box-shadow: 0 0 0 2px #FFF6E0;
+}
+
+.login {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 88px;
+    height: 44px;
+    padding: 0 18px;
+    border-radius: 999px;
+    background: #FFF6E0;
+    color: #272829;
+    font-size: 14px;
+    font-weight: 800;
+    transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.login:hover {
+    transform: scale(1.04);
+    filter: brightness(0.98);
 }
 
 .dropdownContent {
     min-width: 180px;
-    background: white;
-    border-radius: 10px;
+    background: #2c2d2f;
+    border-radius: 12px;
     padding: 8px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(216, 217, 218, 0.06);
     z-index: 9999;
     display: flex;
     flex-direction: column;
     gap: 6px;
-}
-
-.dropdownItem {
-    text-decoration: none;
-    padding: 10px 12px;
-    border-radius: 8px;
-    user-select: none;
-    outline: none;
-    cursor: pointer;
-    color: #111;
-}
-
-.dropdownItem:hover {
-    background: rgba(0, 0, 0, 0.06);
+    color: #D8D9DA;
 }
 
 .dropdownSeparator {
     height: 1px;
-    margin: 0;
-    background: rgba(0, 0, 0, 0.08);
+    margin: 4px 4px;
+    background: rgba(216, 217, 218, 0.08);
 }
 
 .menuItem {
     display: flex;
     box-sizing: border-box;
-    flex: 1 1 auto;
     align-items: center;
     width: 100%;
-
     padding: 10px 12px;
     border-radius: 8px;
-
     text-decoration: none;
-    color: #111;
+    color: #D8D9DA;
     background: transparent;
-
     border: 0;
     font: inherit;
     line-height: 1;
@@ -84,7 +159,8 @@
 }
 
 .menuItem:hover {
-    background: rgba(0, 0, 0, 0.06);
+    background: #61677A;
+    color: #FFF6E0;
 }
 
 .menuItem:focus {

@@ -1,5 +1,7 @@
 import { api } from '../../../shared/api/client'
+import type { TrackCreateRequestDto } from '../../../types/track'
 
+//get
 export async function getAllRequests() {
   try {
     const requests = await api.get(`/requests/feed`)
@@ -40,21 +42,22 @@ export async function getRequestFeedDetails(requestId: number) {
   }
 }
 
-export async function addRequest(title: string) {
+export async function getRequestTracks(requestId: number) {
   try {
-    const data = { title }
-    const response = await api.post(`/requests`, data)
-    return response
+    const tracks = await api.get(`/requests/${requestId}/tracks`)
+    return tracks
   } catch (error) {
     console.error('Error: ' + error)
     throw error
   }
 }
 
-export async function deleteRequest(requestId: number) {
+//post
+export async function addRequest(title: string) {
   try {
-    const res = await api.delete(`/requests/${requestId}`)
-    console.log(res)
+    const data = { title }
+    const response = await api.post(`/requests`, data)
+    return response
   } catch (error) {
     console.error('Error: ' + error)
     throw error
@@ -70,16 +73,41 @@ export function uploadRequestThumbnail(requestId: number, file: File) {
   })
 }
 
-export async function getRequestTracks(requestId: number) {
+export async function addTrackToRequest(
+  requestId: number,
+  dto: TrackCreateRequestDto
+) {
   try {
-    const tracks = await api.get(`/requests/${requestId}/tracks`)
-    return tracks
+    const response = await api.post(`/requests/${requestId}/tracks`, dto)
+    return response
   } catch (error) {
     console.error('Error: ' + error)
     throw error
   }
 }
 
+//delete
+export async function deleteRequest(requestId: number) {
+  try {
+    const res = await api.delete(`/requests/${requestId}`)
+    console.log(res)
+  } catch (error) {
+    console.error('Error: ' + error)
+    throw error
+  }
+}
+
+export async function deleteTrackByRequest(requestId: number, trackId: number) {
+  try {
+    const res = await api.delete(`/requests/${requestId}/tracks/${trackId}`)
+    console.log(res)
+  } catch (error) {
+    console.error('Error: ' + error)
+    throw error
+  }
+}
+
+//patch
 export async function updateRequestTitle(requestId: number, title: string) {
   try {
     const data = { title }

@@ -1,0 +1,165 @@
+.body {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 18px 28px 40px;
+}
+
+.dropdownContent {
+    z-index: 999;
+    min-width: 180px;
+    background: rgba(25, 25, 25, 0.96);
+    color: #eee;
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dropdownSeparator {
+    height: 1px;
+    margin: 6px 4px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.menuItem {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px 10px;
+    border-radius: 10px;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+}
+
+.menuItem:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.menuItem:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+/* 트랙 헤더 (표 머리) */
+.trackHeader {
+    display: grid;
+    grid-template-columns: 44px 1fr 220px 80px 35px 20px;
+    gap: 12px;
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(216, 217, 218, 0.08);
+    font-size: 12px;
+    color: rgba(216, 217, 218, 0.62);
+    text-transform: none;
+}
+
+.trackRow {
+    display: grid;
+    grid-template-columns: 44px 1fr 220px 80px 35px 20px;
+    gap: 12px;
+    padding: 12px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.trackList {
+    display: flex;
+    flex-direction: column;
+}
+
+.trackRow:hover {
+    background: rgba(97, 103, 122, 0.22);
+}
+
+.colIndex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(216, 217, 218, 0.52);
+}
+
+.colTitle {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.trackName {
+    font-size: 15px;
+    font-weight: 650;
+    color: #D8D9DA;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.trackSub {
+    font-size: 12px;
+    color: rgba(216, 217, 218, 0.62);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.colMeta {
+    display: flex;
+    align-items: center;
+    color: rgba(216, 217, 218, 0.72);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.colRight {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: rgba(216, 217, 218, 0.68);
+    white-space: nowrap;
+}
+
+.colMore {
+    display: flex;
+}
+
+.duration {
+    min-width: 40px;
+    text-align: center;
+    color: rgba(216, 217, 218, 0.78);
+}
+
+.moreButton {
+    opacity: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    padding: 0;
+    color: rgba(216, 217, 218, 0.72);
+    display: flex;
+    align-items: center;
+    transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.moreButton:hover {
+    color: #FFF6E0;
+}
+
+/* row hover 시 ... 표시 */
+.trackRow:hover .moreButton {
+    opacity: 1;
+}
+
+@media (max-width: 820px) {
+
+    .trackHeader,
+    .trackRow {
+        grid-template-columns: 36px 1fr 120px 60px;
+    }
+}

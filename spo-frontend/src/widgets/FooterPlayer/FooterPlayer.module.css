@@ -1,6 +1,19 @@
 .footerPlayerContainer {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: 16px;
     height: 100%;
-    padding: 0 16px;
+    padding: 0 20px;
+    background: #272829;
+    color: #D8D9DA;
+    border-top: 1px solid rgba(216, 217, 218, 0.08);
+    box-sizing: border-box;
+}
+
+.footerPlayerContainer h2 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(216, 217, 218, 0.75);
 }

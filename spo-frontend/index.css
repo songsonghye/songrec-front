@@ -1,6 +1,12 @@
 html,
 body,
 #root {
-    height: 100vh;
+    height: 100%;
     margin: 0;
+    background: #272829;
+    color: #D8D9DA;
+}
+
+* {
+    box-sizing: border-box;
 }

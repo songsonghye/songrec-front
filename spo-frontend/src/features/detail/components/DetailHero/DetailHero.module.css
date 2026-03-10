@@ -1,0 +1,81 @@
+.hero {
+    background: linear-gradient(180deg, rgba(97, 103, 122, 0.42), rgba(31, 32, 33, 0));
+    padding: 28px 28px 18px;
+}
+
+
+.heroInner {
+    display: flex;
+    gap: 22px;
+    align-items: flex-end;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.thumbnail {
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.32);
+    cursor: pointer;
+    flex: 0 0 auto;
+    background: #343841;
+}
+
+.headerInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+    flex: 1;
+}
+
+.badge {
+    font-size: 12px;
+    letter-spacing: 0.3px;
+    color: rgba(216, 217, 218, 0.78);
+}
+
+.detailTitle {
+    font-size: 56px;
+    line-height: 1.05;
+    font-weight: 800;
+    margin: 0;
+    word-break: keep-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #FFF6E0;
+}
+
+.meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: rgba(216, 217, 218, 0.82);
+}
+
+.metaUser {
+    font-weight: 700;
+    color: #D8D9DA;
+}
+
+.dot {
+    color: rgba(216, 217, 218, 0.45);
+}
+
+@media (max-width: 820px) {
+    .heroInner {
+        align-items: center;
+    }
+
+    .thumbnail {
+        width: 140px;
+        height: 140px;
+    }
+
+    .detailTitle {
+        font-size: 34px;
+    }
+}

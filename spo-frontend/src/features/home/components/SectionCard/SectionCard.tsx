@@ -28,8 +28,8 @@ export default function SectionCard({
     const fetchData = async () => {
       const section = sections.at(sectionIdx)
       if (!section) return
-      const res = await (await section.fetch()).slice(0, 10)
-      setItems(res)
+      const res = await section.fetch()
+      setItems(res.slice(0, 10))
     }
     fetchData()
   }, [sectionIdx])

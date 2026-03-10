@@ -33,7 +33,7 @@ export default function Header() {
   return (
     <div className={styles.navBar}>
       <NavLink to={`/`} className={styles.logo}>
-        SPO
+        NoraeMoa
       </NavLink>
       <div className={styles.homeNsearch}>
         <NavLink to={`/`} className={styles.homeBtn}>
@@ -45,9 +45,14 @@ export default function Header() {
             name="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            placeholder="어떤 노래를 듣고 싶으세요?"
             required
           />
-          <button type="submit" disabled={isSubmitted}>
+          <button
+            type="submit"
+            disabled={isSubmitted}
+            style={{ display: 'none' }}
+          >
             검색
           </button>
         </form>

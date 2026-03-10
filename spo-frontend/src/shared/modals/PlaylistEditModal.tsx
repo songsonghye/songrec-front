@@ -1,33 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ReactModal from 'react-modal'
 import { DEFAULT_THUMBNAIL } from '../../utils/image'
-
-const customModalStyles: ReactModal.Styles = {
-  overlay: {
-    backgroundColor: ' rgba(0, 0, 0, 0.4)',
-    width: '100%',
-    height: '100vh',
-    zIndex: '10',
-    position: 'fixed',
-    top: '0',
-    left: '0',
-  },
-  content: {
-    width: '360px',
-    height: '180px',
-    zIndex: '150',
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    borderRadius: '10px',
-    boxShadow: '2px 2px 2px rgba(0, 0, 0, 0.25)',
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    overflow: 'auto',
-  },
-}
-
+import styles from './PlaylistEditModal.module.css'
 interface Props {
   isOpen: boolean
   onClose: () => void
@@ -135,37 +109,79 @@ export default function PlaylistEditModal({
     <ReactModal
       isOpen={isOpen}
       onRequestClose={isUploading ? undefined : onClose}
-      style={customModalStyles}
+      className={styles.modalContent}
+      overlayClassName={styles.modalOverlay}
       ariaHideApp={false}
       contentLabel="Upload Thumbnail"
       shouldCloseOnOverlayClick={!isUploading}
     >
-      <div onClick={handleClickThumbnail} style={{ display: 'inline-block' }}>
-        <img
-          src={previewUrl ?? DEFAULT_THUMBNAIL}
-          alt=""
-          style={{ width: 100, cursor: 'pointer' }}
-        />
+      <div className={styles.header}>
+        <h3 className={styles.title}>플레이리스트 수정</h3>
+        <button
+          type="button"
+          className={styles.closeBtn}
+          onClick={onClose}
+          disabled={isUploading}
+        >
+          ×
+        </button>
       </div>
-      <input
-        type="file"
-        accept="image/*"
-        ref={fileInputRef}
-        hidden
-        onChange={handleFileChange}
-      />
-      <input
-        type="text"
-        name="name"
-        value={newTitle}
-        onChange={(e) => setNewTitle(e.target.value)}
-        required
-      />
-      <button onClick={handleSubmit} disabled={isUploading}>
-        {isUploading ? '업로드 중...' : '저장'}
-      </button>
+      <div className={styles.body}>
+        <button
+          type="button"
+          onClick={handleClickThumbnail}
+          className={styles.thumbnailButton}
+        >
+          <img
+            src={previewUrl ?? DEFAULT_THUMBNAIL}
+            alt=""
+            className={styles.thumbnailPreview}
+          />
+          <span className={styles.thumbnailHint}>이미지 변경</span>
+        </button>
 
-      {error && <p style={{ marginTop: 8 }}>{error}</p>}
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          hidden
+          onChange={handleFileChange}
+        />
+        <div className={styles.formArea}>
+          <label className={styles.label} htmlFor="playlist-title">
+            제목
+          </label>
+          <input
+            id="playlist-title"
+            className={styles.titleInput}
+            type="text"
+            name="name"
+            value={newTitle}
+            onChange={(e) => setNewTitle(e.target.value)}
+            required
+          />
+          {error && <p className={styles.errorText}>{error}</p>}
+
+          <div className={styles.actions}>
+            <button
+              type="button"
+              className={styles.cancelBtn}
+              onClick={onClose}
+              disabled={isUploading}
+            >
+              취소
+            </button>
+            <button
+              type="button"
+              className={styles.saveBtn}
+              onClick={handleSubmit}
+              disabled={isUploading}
+            >
+              {isUploading ? '업로드 중...' : '저장'}
+            </button>
+          </div>
+        </div>
+      </div>
     </ReactModal>
   )
 }
