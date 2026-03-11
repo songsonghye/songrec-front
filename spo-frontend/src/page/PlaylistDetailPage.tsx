@@ -102,7 +102,7 @@ export default function PlaylistDetailPage() {
         isOwner={isOwner}
         source={validSource}
         detail={detail}
-        trackCount={tracks.length}
+        trackCount={tracks?.tracks?.length ?? 0}
         moreSlot={
           isOwner ? (
             <PlaylistMoreBtn

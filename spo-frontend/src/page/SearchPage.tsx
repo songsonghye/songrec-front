@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { searchTrack } from '../features/search/api/TrackApi'
-import type { Artist, Search } from '../types/search'
+import { searchTrack } from '../features/track/api/TrackApi'
+import type { Artist } from '../types/search'
 import styles from '../features/search/components/SearchPage.module.css'
 import { getArtist } from '../features/search/api/ArtistApi'
 import {
   addTrackToPlaylist,
   getMyPlaylists,
 } from '../features/playlists/api/PlaylistApi'
-import type { TrackCreateRequestDto } from '../types/track'
+import type { Track, TrackCreateRequestDto } from '../types/track'
 import MenuModal from '../shared/modals/MenuModal'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import type { Playlist } from '../types/playlist'
@@ -16,7 +16,7 @@ import SearchItems from '../features/search/components/SearchItems'
 
 export default function SearchPage() {
   const { id } = useParams()
-  const [tracks, setTracks] = useState<Search | null>(null)
+  const [tracks, setTracks] = useState<Track | null>(null)
   const [artist, setArtist] = useState<Artist | null>(null)
   const [playlists, setPlaylists] = useState<Playlist[]>([])
   const navigate = useNavigate()
@@ -55,9 +55,9 @@ export default function SearchPage() {
   }, [id])
 
   useEffect(() => {
-    if (tracks?.items.length === 0) return
+    if (tracks?.tracks.length === 0) return
     const fetchArtist = async () => {
-      const artistId = tracks?.items.at(0)?.artists.at(0)?.artistId
+      const artistId = tracks?.tracks.at(0)?.artist?.artistId
       if (!artistId) return
       const artistRes = await getArtist(artistId)
       setArtist(artistRes.data)
@@ -87,9 +87,13 @@ export default function SearchPage() {
 
         <div className={styles.trackBlock}>
           <h2 className={styles.sectionTitle}>곡</h2>
-          <SearchItems tracks={tracks}>
+          <SearchItems onLikeBtn={true} tracks={tracks}>
             {(track) => (
-              <MenuModal triggerName="+" key={track.trackId}>
+              <MenuModal
+                triggerName="+"
+                className={styles.addBtn}
+                key={track.trackId}
+              >
                 <DropdownMenu.Content
                   className={styles.dropdownContent}
                   side="bottom"
@@ -106,11 +110,11 @@ export default function SearchPage() {
                           className={styles.menuItem}
                           onClick={() =>
                             handleAddTrack(p.id, {
-                              spotifyId: track.trackId,
+                              spotifyId: track.spotifyId,
                               name: track.name,
-                              artist: track.artists.at(0)?.name,
-                              album: track.album.albumId,
-                              imageUrl: track.album.albumImages.at(0)?.url,
+                              artist: track.artistName,
+                              album: track.album,
+                              imageUrl: track.imageUrl,
                               durationMs: track.durationMs,
                             })
                           }
@@ -134,17 +138,15 @@ export default function SearchPage() {
         <h2 className={styles.sectionTitle}>{artist?.name} 피처링</h2>
 
         <div className={styles.cardRow}>
-          {tracks?.items.map((i) => (
-            <div key={i.trackId} className={styles.playlistCard}>
+          {tracks?.tracks.map((i) => (
+            <div key={i.track.trackId} className={styles.playlistCard}>
               <img
-                src={i.album?.albumImages?.at(0)?.url}
-                alt={i.name}
+                src={i.track.imageUrl}
+                alt={i.track.name}
                 className={styles.playlistImage}
               />
-              <div className={styles.playlistTitle}>{i.name}</div>
-              <div className={styles.playlistDesc}>
-                {i.artists?.at(0)?.name}
-              </div>
+              <div className={styles.playlistTitle}>{i.track.name}</div>
+              <div className={styles.playlistDesc}>{i.artist?.name}</div>
             </div>
           ))}
         </div>

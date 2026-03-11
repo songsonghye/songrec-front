@@ -1,8 +1,7 @@
 import { useCallback, useMemo, useState } from 'react'
 import type { Detail } from '../../../page/PlaylistDetailPage'
 import { createDetailSourceAdapter } from '../services/detailSourceAdapter'
-import type { Track } from '../../../types/track'
-import type { Search } from '../../../types/search'
+import type { SpotifyTrack, Track } from '../../../types/track'
 
 export function useDetailPage(
   source: 'playlist' | 'request' | null,
@@ -15,12 +14,11 @@ export function useDetailPage(
   }, [source, id])
   const [isLoading, setIsLoading] = useState(false)
   const [detail, setDetail] = useState<Detail | null>(null)
-  const [tracks, setTracks] = useState<Track[]>([])
+  const [tracks, setTracks] = useState<Track | null>(null)
   console.log('id: ', id)
 
   const reload = useCallback(async () => {
     if (!adapter || !id) return
-
     setIsLoading(true)
     try {
       const [detailData, trackData] = await Promise.all([
@@ -64,7 +62,7 @@ export function useDetailPage(
   )
 
   const addTrack = useCallback(
-    async (track: Search['items'][number]) => {
+    async (track: SpotifyTrack) => {
       if (!adapter || !id) return
       await adapter.addTrack(id, track)
       await reload()

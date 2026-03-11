@@ -5,12 +5,11 @@
 }
 
 .trackRow {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 96px 56px;
     align-items: center;
-    justify-content: space-between;
-    padding: 8px 12px;
-    border-radius: 8px;
-    transition: background 0.15s;
+    gap: 16px;
+    padding: 10px 12px;
 }
 
 .trackRow:hover {
@@ -21,6 +20,15 @@
     display: flex;
     align-items: center;
     gap: 12px;
+    min-width: 0;
+}
+
+.trackActions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
 }
 
 .trackThumb {
@@ -48,4 +56,54 @@
 .trackDuration {
     color: #b3b3b3;
     font-size: 14px;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.likeBtn {
+    background: none;
+    border: 0;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0.8;
+
+    transition:
+        transform 0.15s ease,
+        opacity 0.15s ease;
+}
+
+.likeBtn:hover {
+    opacity: 1;
+    transform: scale(1.15);
+}
+
+.addAction {
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.trackRow:hover .addAction {
+    opacity: 1;
+}
+
+.addTextBtn {
+    background: none;
+    border: 0;
+    color: #b3b3b3;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: background 0.15s ease, color 0.15s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.addTextBtn:hover {
+    background: #343841;
+    color: #FFF6E0;
 }

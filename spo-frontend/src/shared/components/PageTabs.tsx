@@ -16,6 +16,10 @@ export default function PageTabs() {
         <NavLink to="/community" className={styles.tab}>
           플리 요청함
         </NavLink>
+
+        <NavLink to="/today" className={styles.tab}>
+          오늘의 한 곡
+        </NavLink>
       </div>
 
       <hr className={styles.divider} />

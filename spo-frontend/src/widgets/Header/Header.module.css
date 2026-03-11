@@ -100,6 +100,11 @@
     box-shadow: 0 0 0 2px #FFF6E0;
 }
 
+.profileBtn {
+    padding: 6px 12px;
+    border-radius: 999px;
+}
+
 .login {
     flex-shrink: 0;
     display: inline-flex;

@@ -50,6 +50,19 @@
     font-size: 14px;
 }
 
+.addBtn {
+    width: 28px;
+    height: 28px;
+
+
+    font-size: 16px;
+}
+
+.addBtn:hover {
+    background: #61677A;
+    border-color: #FFF6E0;
+}
+
 
 /* ---------- Bottom cards ---------- */
 

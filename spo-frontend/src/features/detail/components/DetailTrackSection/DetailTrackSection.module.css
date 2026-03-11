@@ -151,6 +151,27 @@
     color: #FFF6E0;
 }
 
+.likeBtn {
+    background: none;
+    border: 0;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0.8;
+
+    transition:
+        transform 0.15s ease,
+        opacity 0.15s ease;
+}
+
+.likeBtn:hover {
+    opacity: 1;
+    transform: scale(1.15);
+}
+
 /* row hover 시 ... 표시 */
 .trackRow:hover .moreButton {
     opacity: 1;

@@ -1,8 +1,8 @@
 import type { Detail } from '../../../page/PlaylistDetailPage'
 import type { Playlist } from '../../../types/playlist'
 import type { RequestDetail } from '../../../types/request'
-import type { Search } from '../../../types/search'
-import type { Track } from '../../../types/track'
+import type { MyTrack } from '../../../types/search'
+import type { SpotifyTrack, Track } from '../../../types/track'
 import {
   addTrackToPlaylist,
   deleteTrackByPlaylist,
@@ -22,11 +22,11 @@ import {
 
 export interface DetailSourceAdapter {
   getDetail(id: number): Promise<Detail>
-  getTracks(id: number): Promise<Track[]>
+  getTracks(id: number): Promise<Track>
   uploadThumbnail(id: number, file: File): Promise<void>
   updateTitle(id: number, title: string): Promise<void>
   deleteTrack(id: number, trackId: number): Promise<void>
-  addTrack(id: number, track: Search['items'][number]): Promise<void>
+  addTrack(id: number, track: SpotifyTrack): Promise<void>
 }
 
 export function createDetailSourceAdapter(source: string): DetailSourceAdapter {
@@ -44,7 +44,21 @@ export function createDetailSourceAdapter(source: string): DetailSourceAdapter {
       },
       async getTracks(id) {
         const res = await getRequestTracks(id)
-        return res.data
+        const mapped: Track = {
+          tracks: (res.data as MyTrack[]).map((t) => ({
+            track: {
+              trackId: t.trackId,
+              spotifyId: t.spotifyTrack.spotifyId,
+              name: t.spotifyTrack.name,
+              artistName: t.spotifyTrack.artistName,
+              album: t.spotifyTrack.album,
+              imageUrl: t.spotifyTrack.imageUrl,
+              durationMs: t.spotifyTrack.durationMs,
+              liked: t.spotifyTrack.liked,
+            },
+          })),
+        }
+        return mapped
       },
       async uploadThumbnail(id, file) {
         await uploadRequestThumbnail(id, file)
@@ -57,11 +71,11 @@ export function createDetailSourceAdapter(source: string): DetailSourceAdapter {
       },
       async addTrack(id, track) {
         await addTrackToRequest(id, {
-          spotifyId: track.trackId,
+          spotifyId: track.spotifyId,
           name: track.name,
-          artist: track.artists.at(0)?.name,
-          album: track.album.albumId,
-          imageUrl: track.album.albumImages.at(0)?.url,
+          artist: track.artistName,
+          album: track.album,
+          imageUrl: track.imageUrl,
           durationMs: track.durationMs,
         })
       },
@@ -80,7 +94,21 @@ export function createDetailSourceAdapter(source: string): DetailSourceAdapter {
     },
     async getTracks(id) {
       const res = await getPlaylistTracks(id)
-      return res.data
+      const mapped: Track = {
+        tracks: (res.data as MyTrack[]).map((t) => ({
+          track: {
+            trackId: t.trackId,
+            spotifyId: t.spotifyTrack.spotifyId,
+            name: t.spotifyTrack.name,
+            artistName: t.spotifyTrack.artistName,
+            album: t.spotifyTrack.album,
+            imageUrl: t.spotifyTrack.imageUrl,
+            durationMs: t.spotifyTrack.durationMs,
+            liked: t.spotifyTrack.liked,
+          },
+        })),
+      }
+      return mapped
     },
     async uploadThumbnail(id, file) {
       await uploadPlaylistThumbnail(id, file)
@@ -93,11 +121,11 @@ export function createDetailSourceAdapter(source: string): DetailSourceAdapter {
     },
     async addTrack(id, track) {
       await addTrackToPlaylist(id, {
-        spotifyId: track.trackId,
+        spotifyId: track.spotifyId,
         name: track.name,
-        artist: track.artists.at(0)?.name,
-        album: track.album.albumId,
-        imageUrl: track.album.albumImages.at(0)?.url,
+        artist: track.artistName,
+        album: track.album,
+        imageUrl: track.imageUrl,
         durationMs: track.durationMs,
       })
     },

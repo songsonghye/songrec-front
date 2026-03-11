@@ -1,10 +1,23 @@
+import type { Artist } from './search'
+
 export interface Track {
-  trackId: number
-  spotifyID: string
+  tracks: TrackDetails[]
+}
+
+export interface TrackDetails {
+  track: SpotifyTrack
+  artist?: Artist
+}
+
+export interface SpotifyTrack {
+  trackId?: number
+  spotifyId: string
   name: string
-  artist: string
+  artistName: string
   album: string
+  imageUrl: string
   durationMs: number
+  liked: boolean
 }
 
 export interface TrackCreateRequestDto {

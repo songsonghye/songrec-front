@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import type { Search } from '../../../types/search'
-import { searchTrack } from '../api/TrackApi'
+import { searchTrack } from '../../track/api/TrackApi'
+import type { Track } from '../../../types/track'
 
 export function useTrackSearch() {
-  const [searchTracks, setSearchTracks] = useState<Search | null>(null)
+  const [searchTracks, setSearchTracks] = useState<Track | null>(null)
   const [searchModalOpen, setSearchModalOpen] = useState(false)
   const [search, setSearch] = useState('')
   const [isSubmitted, setSubmit] = useState(false)

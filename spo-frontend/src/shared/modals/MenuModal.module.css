@@ -1,0 +1,35 @@
+.triggerBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+    border: 0;
+
+    cursor: pointer;
+    font: inherit;
+
+    color: #D8D9DA;
+
+    padding: 4px;
+    border-radius: 6px;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease,
+        transform 0.15s ease;
+}
+
+.triggerBtn:hover {
+    background: #343841;
+    color: #FFF6E0;
+}
+
+.triggerBtn:active {
+    transform: scale(0.96);
+}
+
+.triggerBtn:focus-visible {
+    outline: 2px solid #FFF6E0;
+    outline-offset: 2px;
+}

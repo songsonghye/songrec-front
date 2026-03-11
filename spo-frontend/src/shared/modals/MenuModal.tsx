@@ -1,26 +1,20 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import type { ReactNode } from 'react'
+import styles from './MenuModal.module.css'
 
 export default function MenuModal({
   children,
   triggerName,
+  className,
 }: {
   children: ReactNode
-  triggerName: string
+  triggerName: ReactNode
+  className?: string
 }) {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <button
-          style={{
-            cursor: 'pointer',
-            background: 'transparent',
-            border: 0,
-            color: '#fff',
-            font: 'inherit',
-          }}
-          type="button"
-        >
+        <button className={`${styles.triggerBtn} ${className ?? ''}`}>
           {triggerName}
         </button>
       </DropdownMenu.Trigger>

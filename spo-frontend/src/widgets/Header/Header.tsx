@@ -59,7 +59,7 @@ export default function Header() {
       </div>
 
       <AuthOnly>
-        <MenuModal triggerName="프로필">
+        <MenuModal triggerName="프로필" className={styles.profileBtn}>
           <DropdownMenu.Content
             className={styles.dropdownContent}
             side="bottom"

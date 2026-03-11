@@ -9,6 +9,7 @@ import LoginPage from '../features/auth/pages/LoginPage.tsx'
 import ProfilePage from '../page/ProfilePage.tsx'
 import SignupPage from '../features/auth/pages/SignupPage.tsx'
 import SearchPage from '../page/SearchPage.tsx'
+import DailyTrackPage from '../page/DailyTrackPage.tsx'
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
       {
         path: 'search/:id',
         element: <SearchPage />,
+      },
+      {
+        path: 'today',
+        element: <DailyTrackPage />,
       },
     ],
   },

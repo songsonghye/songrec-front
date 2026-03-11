@@ -1,10 +1,10 @@
-import type { Item, Search } from '../../../../types/search'
+import type { SpotifyTrack, Track } from '../../../../types/track'
 import SearchItems from '../../../search/components/SearchItems'
 import styles from './DetailSearchPanel.module.css'
 
 interface DetailSearchPanelProps {
   id: number | null
-  searchTracks: Search | null
+  searchTracks: Track | null
   searchModalOpen: boolean
   handleCloseSearch: () => void
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>
@@ -12,7 +12,7 @@ interface DetailSearchPanelProps {
   setSearch: React.Dispatch<React.SetStateAction<string>>
   isSubmitted: boolean
   setSearchModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-  addTrack: (track: Item) => Promise<void>
+  addTrack: (track: SpotifyTrack) => Promise<void>
 }
 
 export default function DetailSearchPanel({
@@ -62,6 +62,7 @@ export default function DetailSearchPanel({
 
           <SearchItems
             id={id}
+            onLikeBtn={false}
             tracks={searchTracks}
             addTrack={addTrack}
           ></SearchItems>

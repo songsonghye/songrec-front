@@ -7,7 +7,7 @@ export type TrackMenuAction = {
 type TrackMenuContext = {
   source: string | null
   isOwner: boolean
-  trackId: number
+  trackId: number | null
   onDeleteTrack: (trackId: number) => Promise<void>
 }
 export function getTrackMenuActions({
@@ -16,6 +16,7 @@ export function getTrackMenuActions({
   trackId,
   onDeleteTrack,
 }: TrackMenuContext): TrackMenuAction[] {
+  if (!trackId) return []
   if (source === 'playlist') {
     return isOwner
       ? [
