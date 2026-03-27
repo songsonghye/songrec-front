@@ -56,7 +56,8 @@ export default function PlaylistSide({
 
   const fetchPlaylists = useCallback(async () => {
     const res = await getMyPlaylists()
-    const mapped: Playlist[] = (res.data as Playlist[]).map((p) => ({
+    console.log('플리', res)
+    const mapped: Playlist[] = (res as Playlist[]).map((p) => ({
       id: p.id,
       userId: p.userId,
       username: p.username,

@@ -5,7 +5,8 @@ import type { TrackCreateRequestDto } from '../../../types/track'
 export async function getMyPlaylists() {
   try {
     const playlists = await api.get(`/playlists`)
-    return playlists
+    console.log('나야', playlists.data)
+    return playlists.data
   } catch (error) {
     console.error('Error: ' + error)
     throw error
