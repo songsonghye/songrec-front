@@ -1,29 +1,29 @@
-import { useEffect, useState } from 'react'
-import type { RequestFeedItem } from '../types/request'
-import { addRequest, getAllRequests } from '../features/request/api/RequestApi'
-import { DEFAULT_REQUEST_THUMBNAIL } from '../utils/image'
-import styles from '../features/community/components/CommunityHome/CommunityHome.module.css'
-import { useNavigate, useOutletContext } from 'react-router-dom'
-import { formatFeedTime } from '../utils/time'
-import PageTabs from '../shared/components/PageTabs'
+import { useEffect, useState } from "react";
+import type { RequestFeedItem } from "../types/request";
+import { addRequest, getAllRequests } from "../features/request/api/RequestApi";
+import { DEFAULT_THUMBNAIL, resolveImageUrl } from "../utils/image";
+import styles from "../features/community/components/CommunityHome/CommunityHome.module.css";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { formatFeedTime } from "../utils/time";
+import PageTabs from "../shared/components/PageTabs";
 
 export default function CommunityHome() {
   const { playlistVersion } = useOutletContext<{
-    refreshPlaylists: () => void
-    playlistVersion: number
-  }>()
+    refreshPlaylists: () => void;
+    playlistVersion: number;
+  }>();
 
-  const [requests, setRequests] = useState<RequestFeedItem[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const navigate = useNavigate()
-  const [requestModalOpen, setRequestModalOpen] = useState(false)
-  const [requestPrompt, setRequestPrompt] = useState('')
-  const [isSubmitted, setSubmit] = useState(false)
+  const [requests, setRequests] = useState<RequestFeedItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+  const [requestModalOpen, setRequestModalOpen] = useState(false);
+  const [requestPrompt, setRequestPrompt] = useState("");
+  const [isSubmitted, setSubmit] = useState(false);
 
   const fetchData = async () => {
     try {
-      setIsLoading(true)
-      const res = await getAllRequests()
+      setIsLoading(true);
+      const res = await getAllRequests();
       const mapped: RequestFeedItem[] = (res.data as RequestFeedItem[]).map(
         (r) => ({
           id: r.id,
@@ -33,46 +33,46 @@ export default function CommunityHome() {
           keywords: r.keywords,
           trackCount: r.trackCount,
           createdAt: r.createdAt,
-        })
-      )
-      setRequests(mapped)
+        }),
+      );
+      setRequests(mapped);
     } catch (error) {
-      console.error(error)
-      setRequests([])
+      console.error(error);
+      setRequests([]);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleFeed = (id: number) => {
-    navigate(`/detail/request/${id}`)
-  }
+    navigate(`/detail/request/${id}`);
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (isSubmitted) return
+    e.preventDefault();
+    if (isSubmitted) return;
 
     try {
-      setSubmit(true)
-      const res = await addRequest(requestPrompt)
-      setRequestPrompt('')
-      setRequestModalOpen(false)
-      navigate(`/detail/request/${res.id}`)
+      setSubmit(true);
+      const res = await addRequest(requestPrompt);
+      setRequestPrompt("");
+      setRequestModalOpen(false);
+      navigate(`/detail/request/${res.id}`);
     } catch (err) {
-      console.error(err)
+      console.error(err);
     } finally {
-      setSubmit(false)
+      setSubmit(false);
     }
-  }
+  };
 
   const handleCloseAddRequest = () => {
-    setRequestModalOpen(false)
-    setRequestPrompt('')
-  }
+    setRequestModalOpen(false);
+    setRequestPrompt("");
+  };
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -118,7 +118,7 @@ export default function CommunityHome() {
               <button
                 type="submit"
                 disabled={isSubmitted}
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
               >
                 추가
               </button>
@@ -153,48 +153,49 @@ export default function CommunityHome() {
           </div>
         ) : (
           <div className={styles.feedList}>
-            {requests.map((request) => (
-              <article
-                key={request.id}
-                className={styles.card}
-                onClick={() => handleFeed(request.id)}
-              >
-                <div className={styles.thumbnailWrap}>
-                  <img
-                    src={
-                      request.thumbnailUrl
-                        ? `${import.meta.env.VITE_API_URL}${request.thumbnailUrl}?v=${playlistVersion}`
-                        : DEFAULT_REQUEST_THUMBNAIL
-                    }
-                    alt={request.title}
-                    className={styles.thumbnail}
-                  />
-                </div>
-
-                <div className={styles.content}>
-                  <div className={styles.topRow}>
-                    <div className={styles.title}>{request.title}</div>
-                    <div className={styles.username}>@{request.username}</div>
+            {requests.map((request) => {
+              const srcThumbnailUrl = request.thumbnailUrl
+                ? `${resolveImageUrl(request.thumbnailUrl)}?v=${playlistVersion}`
+                : DEFAULT_THUMBNAIL;
+              return (
+                <article
+                  key={request.id}
+                  className={styles.card}
+                  onClick={() => handleFeed(request.id)}
+                >
+                  <div className={styles.thumbnailWrap}>
+                    <img
+                      src={srcThumbnailUrl}
+                      alt={request.title}
+                      className={styles.thumbnail}
+                    />
                   </div>
 
-                  <div className={styles.keywords}>
-                    {request.keywords?.slice(0, 4).map((k) => (
-                      <span key={k} className={styles.keyword}>
-                        {k}
-                      </span>
-                    ))}
-                  </div>
+                  <div className={styles.content}>
+                    <div className={styles.topRow}>
+                      <div className={styles.title}>{request.title}</div>
+                      <div className={styles.username}>@{request.username}</div>
+                    </div>
 
-                  <div className={styles.meta}>
-                    <span>{request.trackCount}곡</span>
-                    <span>{formatFeedTime(request.createdAt)}</span>
+                    <div className={styles.keywords}>
+                      {request.keywords?.slice(0, 4).map((k) => (
+                        <span key={k} className={styles.keyword}>
+                          {k}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className={styles.meta}>
+                      <span>{request.trackCount}곡</span>
+                      <span>{formatFeedTime(request.createdAt)}</span>
+                    </div>
                   </div>
-                </div>
-              </article>
-            ))}
+                </article>
+              );
+            })}
           </div>
         )}
       </section>
     </div>
-  )
+  );
 }
